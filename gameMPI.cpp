@@ -5,9 +5,10 @@
 #include <omp.h>
 #include <mpi.h>
 #include <cstring>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
-//The algorithm is not completely finished as i need to debug a bit but the structure is there
 
 string fileToRead = "saj//saj4.txt";
 vector<string> result;
@@ -365,6 +366,8 @@ main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &proc_num);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
+    if (proc_num == 0) auto start = high_resolution_clock::now();
+
     // setup the initial state
     int size;
     string saj;
@@ -440,6 +443,10 @@ main(int argc, char **argv)
                 working_slaves--;
             }
         }
+        auto end = high_resolution_clock::now();
+
+        auto ms_int = duration_cast<seconds>(end - start);
+        cout << ms_int.count() << endl;
 
         for (int i = 0; i != result.size(); i++)
         {

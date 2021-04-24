@@ -2,7 +2,9 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
 string fileToRead = "saj//saj1.txt";
 int count = 0;
@@ -221,6 +223,8 @@ GameState recursiveSol(GameState game)
 
 main()
 {
+    auto start = high_resolution_clock::now();
+
     //int turn = 0; //even for bishop & odd for knight
     int size, max_depth;
     string saj;
@@ -256,8 +260,12 @@ main()
     MyReadFile.close();
 
     GameState g(0, size, max_depth, knight, bishop, pieces, moves);
-
     GameState ShortestSol = recursiveSol(g);
+
+    auto stop = high_resolution_clock::now();   
+    auto ms_int = duration_cast<seconds>(stop - start);
+    cout << ms_int.count() << endl;
+
     ShortestSol.printMoves();
-    cout << count << endl;
+    //cout << count << endl;
 }

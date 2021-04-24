@@ -3,9 +3,11 @@
 #include <string>
 #include <fstream>
 #include <omp.h>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
-string fileToRead = "saj//saj1.txt";
+string fileToRead = "saj//saj2.txt";
 int count = 0;
 
 bool isCorrectKnightMove(vector<int> move, vector<int> bishop, int size)
@@ -254,6 +256,8 @@ vector<string> recursiveSol(GameState game)
 
 main()
 {
+    auto start = high_resolution_clock::now();
+
     //int turn = 0; //even for bishop & odd for knight
     int size, max_depth;
     string saj;
@@ -289,8 +293,11 @@ main()
     MyReadFile.close();
 
     GameState g(0, size, max_depth, knight, bishop, pieces, moves);
-
     vector<string> ShortestSol = recursiveSol(g);
+    auto end = high_resolution_clock::now();
+
+    auto ms_int = duration_cast<seconds>(end - start);
+    cout << ms_int.count() << endl;
 
     for (int i = 0; i != ShortestSol.size(); i++)
     {
